@@ -1,0 +1,136 @@
+name: windows-exe
+# Builds the Heavy Gear app as one-file programs for Windows and Linux. Main pushes and manual runs provide artifacts; tags publish releases.
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  renderer:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install LLVM
+        shell: pwsh
+        run: |
+          choco install llvm --yes --no-progress
+          "$env:ProgramFiles\LLVM\bin" >> $env:GITHUB_PATH
+      - name: Build renderer
+        shell: pwsh
+        run: windows\build-renderer.ps1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: heavygear-renderer-windows
+          path: dist/3dfx_hgd3d9.dll
+  cdaudio:
+    # hgcd.dll, the disc-free music proxy the app bundles (tools/cdaudio).
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install LLVM
+        shell: pwsh
+        run: |
+          choco install llvm --yes --no-progress
+          "$env:ProgramFiles\LLVM\bin" >> $env:GITHUB_PATH
+      - name: Build
+        shell: bash
+        run: tools/cdaudio/build.sh
+      - name: Check the proxy
+        shell: bash
+        run: python -c "import sys; sys.path.insert(0, 'patcher'); import hgfix; p = hgfix.proxy_problem('tools/cdaudio/hgcd.dll'); print(p or 'proxy ok'); sys.exit(1 if p else 0)"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: heavygear-cdaudio-windows
+          path: tools/cdaudio/hgcd.dll
+  glide:
+    # glide2x.dll, the 3Dfx particle-fix proxy the Windows app bundles (tools/glidelog; same build as glide-proxy.yml).
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install toolchain
+        run: sudo apt-get update && sudo apt-get install -y clang lld llvm
+      - name: Build
+        run: tools/glidelog/build.sh
+      - name: Check the proxy
+        run: |
+          file tools/glidelog/glide2x.dll | grep -Eq 'PE32 executable.*DLL.*Intel (i386|80386)'
+          grep -aq 'glidelog attached' tools/glidelog/glide2x.dll
+      - uses: actions/upload-artifact@v4
+        with:
+          name: heavygear-glide-windows
+          path: tools/glidelog/glide2x.dll
+  app:
+    # HeavyGearFixes.exe: install, fixes, renderer choice and play. Needs the renderer and the two proxies it bundles.
+    needs: [renderer, cdaudio, glide]
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          architecture: x64
+      - uses: actions/download-artifact@v4
+        with:
+          name: heavygear-renderer-windows
+          path: dist
+      - uses: actions/download-artifact@v4
+        with:
+          name: heavygear-cdaudio-windows
+          path: dist
+      - uses: actions/download-artifact@v4
+        with:
+          name: heavygear-glide-windows
+          path: dist
+      - name: Build
+        shell: pwsh
+        env:
+          HG_PYTHON: python
+        run: windows\build-exe.ps1 -Target app
+      - uses: actions/upload-artifact@v4
+        with:
+          name: heavygear-windows
+          path: dist/HeavyGearFixes.exe
+  linux:
+    # HeavyGear for Linux. Built on the oldest Ubuntu we support so the glibc requirement stays low.
+    needs: renderer
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install toolchain
+        run: sudo apt-get update && sudo apt-get install -y clang lld llvm python3-tk xvfb
+      - uses: actions/download-artifact@v4
+        with:
+          name: heavygear-renderer-windows
+          path: dist
+      - name: Build the 3Dfx particle-fix proxy
+        run: tools/glidelog/build.sh && cp tools/glidelog/glide2x.dll dist/
+      - name: Build
+        run: xvfb-run -a linux/build-bin.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: heavygear-linux
+          path: dist/HeavyGear-linux-x86_64
+  release:
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: [app, linux]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: heavygear-*
+          path: dist
+          merge-multiple: true
+      - name: Attach to release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/HeavyGearFixes.exe
+            dist/HeavyGear-linux-x86_64

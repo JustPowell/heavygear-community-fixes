@@ -1,0 +1,26 @@
+LIBRARY hgcd
+EXPORTS
+mciSendCommandA=_hg_mciSendCommandA@16
+mciGetErrorStringA=_hg_mciGetErrorStringA@12
+auxGetNumDevs=_hg_auxGetNumDevs@0
+auxGetDevCapsA=_hg_auxGetDevCapsA@12
+auxGetVolume=_hg_auxGetVolume@8
+auxSetVolume=_hg_auxSetVolume@8
+timeKillEvent=_fwd_timeKillEvent@0
+timeEndPeriod=_fwd_timeEndPeriod@0
+timeGetDevCaps=_fwd_timeGetDevCaps@0
+timeBeginPeriod=_fwd_timeBeginPeriod@0
+timeSetEvent=_fwd_timeSetEvent@0
+timeGetTime=_hg_timeGetTime@0
+joyGetPosEx=_fwd_joyGetPosEx@0
+joyGetDevCapsA=_fwd_joyGetDevCapsA@0
+joyGetNumDevs=_fwd_joyGetNumDevs@0
+mmioSetInfo=_fwd_mmioSetInfo@0
+mmioSeek=_fwd_mmioSeek@0
+mmioAdvance=_fwd_mmioAdvance@0
+mmioOpenA=_fwd_mmioOpenA@0
+mmioDescend=_fwd_mmioDescend@0
+mmioRead=_fwd_mmioRead@0
+mmioAscend=_fwd_mmioAscend@0
+mmioClose=_fwd_mmioClose@0
+mmioGetInfo=_fwd_mmioGetInfo@0

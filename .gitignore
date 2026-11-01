@@ -1,0 +1,45 @@
+# Game data and anything made from it: never commit these.
+HG-DISC-1/
+HG-DISC-2/
+backups/
+patches/
+wrappers/
+linux/files/
+
+# Game file types (in case one lands somewhere else)
+*.[eE][xX][eE]
+*.[dD][lL][lL]
+*.[pP][rR][jJ]
+*.[cC][aA][bB]
+*.[aA][vV][iI]
+*.[pP][cC][xX]
+*.[wW][aA][vV]
+*.[tT][eE][xX]
+*.[mM][lL][tT]
+*.[tT][lL][tT]
+*.[tT][tT][fF]
+*.[iI][sS][oO]
+*.[bB][iI][nN]
+*.[cC][uU][eE]
+HEAVYG.MAP
+GAMEKEY.MAP
+*.orig
+
+# Build output and logs
+tools/glidelog/glidelog.c
+tools/glidelog/glide2x.def
+renderer/hgd3d9/d3d9_min.h
+*.obj
+*.lib
+*.log
+*.cap
+__pycache__/
+*.pyc
+*.tar*
+*.zip
+*.zst
+
+# PyInstaller (windows/build-exe.ps1, linux/build-bin.sh)
+dist/
+build/
+*.spec

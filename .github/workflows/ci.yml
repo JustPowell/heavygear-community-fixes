@@ -1,0 +1,43 @@
+name: checks
+on: [push, pull_request]
+jobs:
+  windows:
+    # Real Tk is available here, so the app tests and the self-test build the window.
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Windows installer tests
+        run: python -m unittest discover -s windows -p "test_*.py"
+      - name: App tests (including the window)
+        run: python -m unittest discover -s app -p "test_*.py"
+      - name: App self-test (builds every page)
+        run: python app/heavygear.py --self-test
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Tk and a virtual display
+        run: sudo apt-get update && sudo apt-get install -y python3-tk xvfb
+      - name: Python compiles
+        run: python3 -m py_compile app/*.py patcher/*.py windows/*.py linux/*.py tools/glidelog/gen.py
+      - name: Windows installer core tests
+        run: python3 -m unittest discover -s windows -p "test_*.py"
+      - name: Linux tests
+        run: python3 -m unittest discover -s linux -p "test_*.py"
+      - name: App tests (including the window)
+        run: xvfb-run -a python3 -m unittest discover -s app -p "test_*.py"
+      - name: App self-test (builds every page)
+        run: xvfb-run -a python3 app/heavygear.py --self-test
+      - name: Shell scripts parse
+        run: for f in linux/*.sh tools/glidelog/build.sh tools/cdaudio/*.sh renderer/hgd3d9/*.sh; do bash -n "$f"; done
+      - name: hgfix --list works
+        run: python3 patcher/hgfix.py . --list && python3 patcher/hgfix.py . --list --platform windows
+      - name: No game files committed
+        run: |
+          # inode/symlink is allowed: a tracked symlink is a path pointer (e.g. the skill links),
+          # it holds no bytes, so it is neither game material nor a binary.
+          bad=$(git ls-files -z | xargs -0 file --mime-type | grep -v -E ': +(text/|application/json|application/javascript|inode/x-empty|inode/symlink)' | grep -v -E '^mods/wasd/wasd-controls\.pdf: +application/pdf$' || true)
+          if [ -n "$bad" ]; then echo "Binary files in the repo:"; echo "$bad"; exit 1; fi

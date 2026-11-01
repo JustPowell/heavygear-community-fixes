@@ -1,0 +1,38 @@
+name: cdaudio-proxy
+# Builds the disc-free music proxy (tools/cdaudio) as hgcd.dll. Push a tag like v0.1 to attach it to a GitHub
+# release. Main pushes and manual runs also provide a downloadable artifact.
+# Install steps for Windows: docs/windows.md. The DLL is never committed (see .gitignore).
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install toolchain
+        run: sudo apt-get update && sudo apt-get install -y clang lld llvm
+      - name: Build
+        run: tools/cdaudio/build.sh
+      - name: Smoke test
+        run: |
+          dll=tools/cdaudio/hgcd.dll
+          test -s "$dll"
+          # Older `file` calls the CPU "Intel 80386", newer ones "Intel i386".
+          file "$dll" | tee /dev/stderr | grep -Eq 'PE32 executable.*DLL.*Intel (i386|80386)'
+          grep -aq 'MUSIC files' "$dll"
+          # No forwarder to a module that does not exist, and every export the patcher expects.
+          python3 -c "import sys; sys.path.insert(0, 'patcher'); import hgfix; p = hgfix.proxy_problem('$dll'); print(p or 'proxy ok'); sys.exit(1 if p else 0)"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: heavygear-cdaudio-proxy
+          path: tools/cdaudio/hgcd.dll
+      - name: Attach to release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: tools/cdaudio/hgcd.dll

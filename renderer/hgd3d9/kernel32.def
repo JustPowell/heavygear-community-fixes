@@ -1,0 +1,14 @@
+LIBRARY kernel32.dll
+EXPORTS
+CreateFileA@28
+WriteFile@20
+CloseHandle@4
+IsBadReadPtr@8
+QueryPerformanceCounter@4
+QueryPerformanceFrequency@4
+SetFilePointer@16
+LoadLibraryA@4
+GetProcAddress@8
+GetModuleHandleA@4
+GetCurrentProcessId@0
+ReadFile@20

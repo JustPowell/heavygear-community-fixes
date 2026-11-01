@@ -1,0 +1,11 @@
+LIBRARY kernel32.dll
+EXPORTS
+LoadLibraryA@4
+GetProcAddress@8
+GetStdHandle@4
+WriteFile@20
+Sleep@4
+ExitProcess@4
+GetTickCount@0
+GetCurrentDirectoryA@8
+SetCurrentDirectoryA@4

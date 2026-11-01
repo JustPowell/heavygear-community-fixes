@@ -1,0 +1,18 @@
+LIBRARY kernel32.dll
+EXPORTS
+LoadLibraryA@4
+GetProcAddress@8
+GetModuleFileNameA@12
+GetFileAttributesA@4
+GetEnvironmentVariableA@12
+CreateFileA@28
+WriteFile@20
+CloseHandle@4
+GetTickCount@0
+GetCurrentDirectoryA@8
+SetCurrentDirectoryA@4
+GetModuleHandleA@4
+VirtualProtect@16
+VirtualAlloc@16
+GetLastError@0
+SetLastError@4

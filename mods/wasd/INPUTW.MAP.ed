@@ -1,0 +1,218 @@
+225a
+}
+zoom_factor_plus {
+	+ keyboard Z
+	- keyboard Control
+	- keyboard Shift
+}
+zoom_factor_minus {
+	+ keyboard Z
+	+ keyboard Shift
+	- keyboard Control
+}
+zoom_factor_reset {
+	+ keyboard Z
+	+ keyboard Control
+	- keyboard Shift
+}
+track_distance_minus {
+	+ keyboard Z
+	- keyboard Control
+	- keyboard Shift
+}
+track_distance_plus {
+	+ keyboard Z
+	+ keyboard Shift
+	- keyboard Control
+}
+walk_forward {
+	+ keyboard GreyUpArrow
+	- keyboard Control
+	- keyboard Shift
+}
+run_forward {
+	+ keyboard GreyUpArrow
+	+ keyboard Shift
+	- keyboard Control
+}
+walk_backward {
+	+ keyboard GreyDownArrow
+	- keyboard Control
+}
+legs_pan_minus {
+	+ keyboard GreyLeftArrow
+	- keyboard Control
+	- keyboard Shift
+}
+legs_pan_plus {
+	+ keyboard GreyRightArrow
+	- keyboard Control
+	- keyboard Shift
+}
+straffe_left {
+	+ keyboard GreyLeftArrow
+	+ keyboard Shift
+	- keyboard Control
+}
+straffe_right {
+	+ keyboard GreyRightArrow
+	+ keyboard Shift
+	- keyboard Control
+}
+glance_left {
+	+ keyboard GreyLeftArrow
+	+ keyboard Control
+	- keyboard Shift
+}
+glance_right {
+	+ keyboard GreyRightArrow
+	+ keyboard Control
+	- keyboard Shift
+}
+eyepoint_pan_minus {
+	+ keyboard GreyLeftArrow
+	+ keyboard Control
+	- keyboard Shift
+}
+eyepoint_pan_plus {
+	+ keyboard GreyRightArrow
+	+ keyboard Control
+	- keyboard Shift
+}
+pilot_tilt_plus {
+	+ keyboard GreyUpArrow
+	+ keyboard Control
+	- keyboard Shift
+}
+pilot_tilt_minus {
+	+ keyboard GreyDownArrow
+	+ keyboard Control
+}
+track_height_plus {
+	+ keyboard GreyUpArrow
+	+ keyboard Control
+	- keyboard Shift
+}
+track_height_minus {
+	+ keyboard GreyDownArrow
+	+ keyboard Control
+.
+220a
+torso_pan_minus {
+	+ keyboard Comma
+}
+torso_pan_plus {
+	+ keyboard Period
+}
+torso_pan_reset {
+	+ keyboard *Slash
+}
+.
+215,216c
+reverse_direction {
+	+ keyboard *Backspace
+.
+212,213c
+throttle_minus {
+	+ keyboard Minus
+.
+209,210c
+throttle_plus {
+	+ keyboard Equal
+.
+206,207c
+pickup_drop_wpn {
+	+ keyboard *P
+.
+170,175d
+159c
+	+ keyboard *U
+	+ keyboard Shift
+}
+target_enemy {
+	+ keyboard Y
+	- keyboard Shift
+}
+previous_enemy {
+	+ keyboard Y
+.
+155c
+	+ keyboard *U
+.
+136,144c
+	+ keyboard Tab
+.
+132,133c
+	+ mouse MiddleBtn
+.
+128,129c
+weapon_fire {
+	+ mouse LeftBtn
+}
+weapon_cycle {
+	+ mouse RightBtn
+.
+125,126c
+torso_tilt {
+	- mouse Down/Up
+.
+122,123c
+torso_pan {
+	+ mouse Left/Right
+.
+119,120c
+feet_to_torso {
+	+ keyboard *F
+	- keyboard Control
+	- keyboard Shift
+.
+117c
+	+ keyboard *R
+.
+114c
+	+ keyboard *C
+	+ keyboard Shift
+	- keyboard Control
+.
+111c
+	+ keyboard *C
+	- keyboard Control
+	- keyboard Shift
+.
+109a
+jumpjet_enabled {
+	+ keyboard Space
+}
+.
+106,107c
+	+ keyboard *E
+.
+101,102c
+	+ keyboard *Q
+.
+88,99d
+84c
+	+ keyboard D
+.
+79c
+	+ keyboard *A
+.
+73,74c
+run_backward {
+	+ keyboard *S
+.
+71a
+	- keyboard Shift
+.
+70c
+	+ keyboard *S
+.
+64,68d
+59,60c
+run_forward {
+	+ keyboard *W
+.
+1,55c
+walk_forward {
+	+ keyboard *W
+.
