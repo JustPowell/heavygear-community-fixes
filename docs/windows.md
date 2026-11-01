@@ -7,11 +7,15 @@
 
 ## Recommended: the Heavy Gear app
 
-The Releases page has one one-file program, `HeavyGearFixes.exe`. It needs no Python, PowerShell,
+The [Releases page](https://github.com/JustPowell/heavygear-community-fixes/releases/latest) has one one-file program, `HeavyGearFixes.exe`. It needs no Python, PowerShell,
 PyInstaller, LLVM or Windows SDK, and bundles the community patcher, the WASD controls, the
 Direct3D 9 renderer and the music proxy for playing without disc 2. It installs and updates the game
 and is also the everyday launcher. It opens on **Play** when it finds the game (the folder you used
 last, or a retail install Windows has registered) and on **Install & update** otherwise.
+
+The program is not code-signed, so on first run Windows may say *"Windows protected your PC"*: click
+**More info**, then **Run anyway**. Some antivirus tools also flag one-file Python programs like this one;
+it is built in the open by the `windows-exe` workflow in the Actions tab.
 
 On **Install & update**, choose the game folder at the top (the default for a new copy is
 `%USERPROFILE%\Games\HeavyGear`). If the game is already there, its files are kept; otherwise browse

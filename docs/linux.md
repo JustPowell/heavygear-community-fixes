@@ -2,7 +2,7 @@
 
 ## Recommended: the Heavy Gear app
 
-The Releases page has one one-file program, `HeavyGear-linux-x86_64` (no Python needed; built on
+The [Releases page](https://github.com/JustPowell/heavygear-community-fixes/releases/latest) has one one-file program, `HeavyGear-linux-x86_64` (no Python needed; built on
 Ubuntu 22.04, so it runs on Ubuntu 22.04+, Debian 12+, Fedora, Arch / CachyOS and similar). It
 installs and updates the game and is also the everyday launcher. Its pages:
 

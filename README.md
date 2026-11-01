@@ -12,6 +12,19 @@ Linux under Wine, and Windows 10 / 11.
 | Linux (Wine) | the Heavy Gear app; tested on CachyOS, other distributions should work ([docs/linux.md](docs/linux.md)) |
 | Windows 10 / 11 | the Heavy Gear app; tested on one Windows 11 machine, reports welcome ([docs/windows.md](docs/windows.md)) |
 
+## Downloads
+
+The [latest release](https://github.com/JustPowell/heavygear-community-fixes/releases/latest) has:
+
+| File | What it is |
+|---|---|
+| `HeavyGearFixes.exe` | the Heavy Gear app for Windows 10 / 11. Download and run it; no install. It is not code-signed, so Windows may say *"Windows protected your PC"*: click **More info**, then **Run anyway** |
+| `HeavyGear-linux-x86_64` | the Heavy Gear app for Linux. Make it executable (`chmod +x HeavyGear-linux-x86_64`) and run it; it needs Wine |
+| `glide2x.dll` | the 3Dfx particle-fix proxy (`tools/glidelog`). The app installs it for you; download it only to set it up by hand ([Windows](docs/windows.md#3dfx-particle-fix-proxy-glide2xdll)) |
+| `hgcd.dll` | the disc-free music proxy (`tools/cdaudio`). The Windows app installs it for you; download it only for `hgfix.py --fix music` run by hand |
+
+Most players need only the app for their system. The Direct3D 9 renderer is inside both apps.
+
 ## Two ways to use it
 
 **1. Install everything from your discs.** The Heavy Gear app (`HeavyGearFixes.exe` or
@@ -52,10 +65,10 @@ patch; anything else is refused unchanged). `--list` shows which fixes apply on 
 | `dx5draw` | Windows: menus turn red after a mission. Sets the game's own Direct3D plugin (`DX5DRAW.DLL`) aside, so that renderer is no longer offered | Windows |
 | `partdepth` | v1.2: particle sprites have no depth, so far dust and smoke show through hills (renderers with a depth buffer) | Linux, Windows (v1.2 only) |
 | `nodisc` | play without disc 2 in the drive: cutscenes come from a `VIDEO` folder in the game folder | off (opt-in) |
-| `music` | soundtrack from ripped track files instead of the CD (turns on `nodisc`; needs `hgcd.dll` from `tools/cdaudio`) | off (opt-in) |
+| `music` | soundtrack from ripped track files instead of the CD (turns on `nodisc`; needs `hgcd.dll`, which the Windows app bundles and a release carries, or build it from `tools/cdaudio`) | off (opt-in) |
 | `borderless` | v1.2: the game runs in one borderless full-screen window; menus, movies and missions are scaled into the largest 4:3 area with black bars, with no display-mode switches (safe alt-tab, no gamescope). Replaces `display`, `moviebg` and `movie32`. Software missions stay 640x480, scaled | Linux, Windows (v1.2 only) |
 | `palette` | experimental: re-sends the menu palette once; did not cure the red menus (see `dx5draw`). Still accepted, not offered by the app | off (opt-in) |
-| 3Dfx particles (not an `hgfix` fix) | 3Dfx renderer: smoke, dust and fire drawn as black squares. Fixed by a proxy driver built from `tools/glidelog` and installed by `linux/setup-glide.sh` (needs clang, lld, llvm) | Linux (script), Windows (manual). The old `hgfix.py --fix glide` is retired |
+| 3Dfx particles (not an `hgfix` fix) | 3Dfx renderer: smoke, dust and fire drawn as black squares. Fixed by a proxy driver built from `tools/glidelog` and installed by the app's **Set up 3Dfx** (or `linux/setup-glide.sh` from a checkout, which needs clang, lld, llvm), or by hand from a release's `glide2x.dll` | Linux, Windows (app or manual). The old `hgfix.py --fix glide` is retired |
 
 Also: a WASD + mouse control layout (`patcher/hg_controls.py`, `mods/wasd/`, with a printable card, `mods/wasd/wasd-controls.pdf`), a disc-free music
 proxy (`tools/cdaudio`) and a replacement Direct3D 9 renderer (`renderer/hgd3d9`).
